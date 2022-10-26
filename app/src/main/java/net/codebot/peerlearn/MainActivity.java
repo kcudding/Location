@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         new SimpleEula(this).show();
         new TermsConditions(this).show();
+        new permit2(this).show();
 
         // check permissions
         try {
@@ -74,11 +75,11 @@ public class MainActivity extends Activity {
         imageLogo.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+           public void onClick(View v) {
                 // TODO Auto-generated method stub
-                String url = "https://multi-plier.ca/PeerLearn.html";
+               String url = "https://multi-plier.ca/PeerLearn.html";
 
-                Intent i = new Intent(Intent.ACTION_VIEW);
+               Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
             }
