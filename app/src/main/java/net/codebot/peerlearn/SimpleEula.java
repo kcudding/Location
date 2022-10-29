@@ -9,6 +9,7 @@ package net.codebot.peerlearn;
         import android.content.pm.PackageInfo;
         import android.content.pm.PackageManager;
         import android.preference.PreferenceManager;
+        import android.text.Html;
 
 public class SimpleEula {
 
@@ -42,11 +43,11 @@ public class SimpleEula {
             String title = mActivity.getString(R.string.app_name) + " v" + versionInfo.versionName;
 
             //Includes the updates as well so users know what changed.
-            String message = mActivity.getString(R.string.updates) + "\n\n" + mActivity.getString(R.string.eula);
-
+            //String message = mActivity.getString(R.string.updates) + "\n\n" + mActivity.getString(R.string.eula);
+            String message = mActivity.getString(R.string.eula);
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
-                    .setMessage(message)
+                    .setMessage(Html.fromHtml(message))
                     .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                         @Override
@@ -58,6 +59,7 @@ public class SimpleEula {
                             dialogInterface.dismiss();
                         }
                     })
+
                     .setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 
                         @Override

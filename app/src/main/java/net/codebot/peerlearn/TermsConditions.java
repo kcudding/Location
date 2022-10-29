@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.text.Html;
 
 public class TermsConditions {
 
@@ -42,11 +43,14 @@ public class TermsConditions {
             String title = mActivity.getString(R.string.app_name) + " v" + versionInfo.versionName;
 
             //Includes the updates as well so users know what changed.
-            String message = mActivity.getString(R.string.updates) + "\n\n" + mActivity.getString(R.string.tc);
+            String myString = mActivity.getString(R.string.Terms);
+            //String message = mActivity.getString(R.string.updates) + "\n\n" + mActivity.getString(R.string.tc);
+            //String message = myString;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
-                    .setMessage(message)
+                    .setMessage(Html.fromHtml(myString))
+                    //remember weirdness here use popup
                     .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                         @Override

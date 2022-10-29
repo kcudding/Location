@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 public class permit2 {
@@ -41,12 +42,12 @@ public class permit2 {
             String title = mActivity.getString(R.string.app_name) + " v" + versionInfo.versionName;
 
             //Includes the updates as well so users know what changed.
-            String message = mActivity.getString(R.string.info);
-
+            //String message = mActivity.getString(R.string.info);
+            String message = mActivity.getString(R.string.privacy);
 
             final AlertDialog alertDialog = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
-                    .setMessage(message)
+                    .setMessage(Html.fromHtml(message))
                     .setPositiveButton("Get more info", null)
                     .setNegativeButton("CANCEL", null)
                     .setNeutralButton("Agree", null)

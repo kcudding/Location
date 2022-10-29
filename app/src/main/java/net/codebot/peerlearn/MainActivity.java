@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import android.webkit.WebView;
@@ -42,9 +44,10 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new SimpleEula(this).show();
-        new TermsConditions(this).show();
         new permit2(this).show();
+        new TermsConditions(this).show();
+        new SimpleEula(this).show();
+
 
         // check permissions
         try {
@@ -65,7 +68,7 @@ public class MainActivity extends Activity {
         // make scrollable
         final TextView text = (TextView) findViewById(R.id.editText);
         text.setMovementMethod(new ScrollingMovementMethod());
-
+        text.setText(R.string.prestatus);
         // access web
 
        // final Button proj = (Button) findViewById(R.id.proj);
@@ -83,6 +86,28 @@ public class MainActivity extends Activity {
                 i.setData(Uri.parse(url));
                 startActivity(i);
             }
+        });
+        Button imageLogo2 = (Button)findViewById(R.id.user);
+        imageLogo2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                String url = "https://multi-plier.ca/EULA.html";
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+
+        final Button enableButton = (Button) findViewById(R.id.app_settings);
+        enableButton.setOnClickListener(event -> {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", getPackageName(), null));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         });
 
         // exit program
@@ -106,32 +131,22 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 // create a work request to fetch location data
                 // first request runs immediately and schedules the next one
+
                 OneTimeWorkRequest locationRequest = new OneTimeWorkRequest.Builder(LocationWorker.class).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(locationRequest);
-                text.setText("Peer Learn is tracking\n\n");
+                text.setTextColor(Color.parseColor("#D81B60"));
+                text.setText(R.string.status);
                 start.setEnabled(false);
+               // startActivity(new Intent(MainActivity.this, MainActivity2.class));
             }
         });
 
-        // start tracking handler
-        final Button refresh = (Button) findViewById(R.id.refresh);
-        refresh.setOnClickListener(event -> {
-                String locText = "No Location data";
-                if(LocationWorker.location != null){
-                    String lat = Double.toString(LocationWorker.location.getLatitude());
-                    String lg = Double.toString(LocationWorker.location.getLongitude());
-                    String alt = Double.toString(LocationWorker.location.getAltitude());
-                    locText = lat + "," + lg + "," + alt + ";";
-                }
-                text.append(
-                        LocationWorker.updated + "\n" + locText + "\n"
-                );});
-        final Button enableButton = (Button) findViewById(R.id.app_settings);
-        enableButton.setOnClickListener(event -> {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.fromParts("package", getPackageName(), null));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        });
+
+
+
     }
+
+
+
+
 }
