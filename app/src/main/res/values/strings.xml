@@ -6,11 +6,19 @@
     <string name="refresh">My phone powered down, refresh data</string>
     <string name="enable">Set location permissions</string>
     <string name="info">
-        This app will run in the background to track location, but your identity will not be shared.
-        To protect your privacy, the phone will assign itself a random identity code. In addition,
-        the data will be stored in a password protected location.\n\nPlease select \'Always allow\' in the Location permissions to allow the app to run in the background \n
-        1. Click the button \'Set location permissions\'.\n
-        2. In the menu go to:\n Permissions > Location > Allow all the time\n\n
+        This app will track location in the background for a teaching activity. Your
+        identity will not be recorded and all data will be password protected.\n\nThe location data
+        will be used to simulate disease dynamics, which advanced
+        students will analyze and model. They will present their findings and explain
+        the models to the early year undergrads who provide the data.
+        This peer learning exercise is designed to increase your understanding of quantitative
+        methods.\n\nIf you wish to participate: Please select \'Always allow\' in Location
+        permissions to allow the app to run in the background.\n
+
+        1. Click \'Set location permissions\'.\n
+        2. Go to:\n Permissions>Location>Allow all the time\n
+        3. Then cick \'I agree, start tracking\'.\nPeerLearn will
+        indicate that it is tracking location\n
     </string>
     <string name="projurl">Visit our site for more details about this project</string>
     <string name="user">User agreement</string>

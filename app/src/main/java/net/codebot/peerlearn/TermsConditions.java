@@ -34,9 +34,9 @@ public class TermsConditions {
         PackageInfo versionInfo = getPackageInfo();
 
         // the eulaKey changes every time you increment the version number in the AndroidManifest.xml
-        final String eulaKey = TC_PREFIX + versionInfo.versionCode;
+        final String TCKey = TC_PREFIX + versionInfo.versionCode;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean hasBeenShown = prefs.getBoolean(eulaKey, false);
+        boolean hasBeenShown = prefs.getBoolean(TCKey, false);
         if(hasBeenShown == false){
 
             // Show the TermsConditions
@@ -57,7 +57,7 @@ public class TermsConditions {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             // Mark this version as read.
                             SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean(eulaKey, true);
+                            editor.putBoolean(TCKey, true);
                             editor.commit();
                             dialogInterface.dismiss();
                         }

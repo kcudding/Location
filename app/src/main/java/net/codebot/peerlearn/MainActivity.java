@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
                 text.setTextColor(Color.parseColor("#D81B60"));
                 text.setText(R.string.status);
                 start.setEnabled(false);
-               // startActivity(new Intent(MainActivity.this, MainActivity2.class));
+
             }
         });
 
