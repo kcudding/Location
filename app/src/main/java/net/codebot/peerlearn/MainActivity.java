@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -21,6 +22,14 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+
+import java.time.LocalDate;
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
 public class MainActivity extends Activity {
@@ -35,7 +44,12 @@ public class MainActivity extends Activity {
 
     // tag for debugging
     public static final String TAG = "GPSTRACKER";
+
     private WebView webView1;
+    LocalDate endtrial = LocalDate.parse("2022-12-08");
+    LocalDate starttrial = LocalDate.parse("2022-11-06");
+    LocalDate today = LocalDate.now();
+    Boolean containsToday = ( ! today.isBefore( starttrial ) ) && ( today.isBefore( endtrial ) ) ;
 
     // data to fetch from the location service
 
@@ -44,32 +58,58 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final String id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         new permit2(this).show();
         new TermsConditions(this).show();
         new SimpleEula(this).show();
 
-
-        // check permissions
-        try {
-            boolean perms = true;
-            for(String s: mPermissions){
-                perms = perms && (ActivityCompat.checkSelfPermission(this, s) == PackageManager.PERMISSION_GRANTED);
-            }
-            if(!perms){
-                ActivityCompat.requestPermissions(this, mPermissions, REQUEST_CODE_PERMISSION);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // get data from tracking service
-        GPSTracker.Builder().setContext(this.getApplicationContext());
-
         // make scrollable
         final TextView text = (TextView) findViewById(R.id.editText);
+
         text.setMovementMethod(new ScrollingMovementMethod());
         text.setText(R.string.prestatus);
-        // access web
+       // adding the color to be shown
+        ObjectAnimator animator = ObjectAnimator.ofInt(text, "TextColor",
+                Color.RED);
+// duration of one color
+        animator.setDuration(500);
+        animator.setEvaluator(new ArgbEvaluator());
+// color will be show in reverse manner
+        animator.setRepeatCount(Animation.REVERSE);
+// It will be repeated up to infinite time
+        animator.setRepeatCount(Animation.INFINITE);
+        animator.start();
+
+        // check date range
+
+        // make scrollable
+        final TextView textinfo = (TextView) findViewById(R.id.textView);
+        textinfo.setMovementMethod(new ScrollingMovementMethod());
+       // text.setText(R.string.prestatus);
+        // check date range
+
+
+        if(!containsToday ){
+            text.setTextColor(Color.parseColor("#D81B60"));
+            text.setText(R.string.statusendtrial);
+
+
+                new CountDownTimer(15000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    public void onFinish() {
+                        finishAffinity();
+                        System.exit(0);
+                    }
+                }.start();
+
+
+            }
 
        // final Button proj = (Button) findViewById(R.id.proj);
         //proj.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +134,20 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 String url = "https://multi-plier.ca/EULA.html";
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+        Button priv = (Button)findViewById(R.id.priv);
+        priv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                String url = "https://multi-plier.ca/privacy.html";
 
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -131,12 +185,62 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 // create a work request to fetch location data
                 // first request runs immediately and schedules the next one
+                boolean perms = true;
+                // check permissions
+                try {
 
-                OneTimeWorkRequest locationRequest = new OneTimeWorkRequest.Builder(LocationWorker.class).build();
-                WorkManager.getInstance(getApplicationContext()).enqueue(locationRequest);
-                text.setTextColor(Color.parseColor("#D81B60"));
-                text.setText(R.string.status);
-                start.setEnabled(false);
+                    for (String s : mPermissions) {
+                        perms = perms && (ActivityCompat.checkSelfPermission(MainActivity.this, s) == PackageManager.PERMISSION_GRANTED);
+                        if (!perms) {
+                            ActivityCompat.requestPermissions(MainActivity.this, mPermissions, REQUEST_CODE_PERMISSION);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+               // boolean perms2=perms;
+               // if (!perms2) {
+                //    ActivityCompat.requestPermissions(MainActivity.this, mPermissions, REQUEST_CODE_PERMISSION);
+                 //   for (String s : mPermissions) {
+                  //      perms2 = perms && (ActivityCompat.checkSelfPermission(MainActivity.this, s) == PackageManager.PERMISSION_GRANTED);
+                   // }
+               // }
+                    //    if (!perms) {
+                   //         text.setTextColor(Color.parseColor("#D81B60"));
+                     //       text.setText(R.string.deniedstatus);
+
+
+                       //     new CountDownTimer(12000, 1000) {
+//
+  //                              public void onTick(long millisUntilFinished) {
+//
+  //                              }
+
+    //                            public void onFinish() {
+      //                              finishAffinity();
+        //                            System.exit(0);
+          //                      }
+            //                }.start();
+
+
+                    //    }
+                    if (perms==true) {
+                        // get data from tracking service
+                        animator.cancel();
+                        animator.end();
+                        animator.removeAllListeners();
+                        start.setTextColor(Color.LTGRAY);
+                        GPSTracker.Builder().setContext(MainActivity.this.getApplicationContext());
+
+                        OneTimeWorkRequest locationRequest = new OneTimeWorkRequest.Builder(LocationWorker.class).build();
+                        WorkManager.getInstance(getApplicationContext()).enqueue(locationRequest);
+                        text.setTextColor(Color.parseColor("#D81B60"));
+                       // text.setText(R.string.status+);
+                        text.setText("Tracking\n"+id);
+
+
+
+                    }
 
             }
         });

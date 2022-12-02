@@ -34,7 +34,7 @@ public class GPSTracker implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 10; // 1 minute
 
     public static GPSTracker Builder(Context _context) {
         context = _context;

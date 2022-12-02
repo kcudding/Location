@@ -6,22 +6,31 @@
     <string name="refresh">My phone powered down, refresh data</string>
     <string name="enable">Set location permissions</string>
     <string name="info">
-        This app will track location in the background for a teaching activity. Your
-        identity will not be recorded and all data will be password protected.\n\nThe location data
-        will be used to simulate disease dynamics, which advanced
+        This app will track location in the background for a teaching activity between November and
+        December. Your
+        identity will not be recorded and all data will be password protected.\n\nTo participate:
+        \n1.Select Permissions>Location>\'Allow all the time\' to allow the app
+        to run in the background.\n
+        2. Click \'I agree, start tracking\'.\nPeerLearn will
+        indicate that it is tracking location\n\n
+
+
+
+        The location data will be used to simulate disease dynamics, which advanced
         students will analyze and model. They will present their findings and explain
         the models to the early year undergrads who provide the data.
         This peer learning exercise is designed to increase your understanding of quantitative
-        methods.\n\nIf you wish to participate: Please select \'Always allow\' in Location
-        permissions to allow the app to run in the background.\n
+        methods.\n\nYou may discontinue location tracking at any time in the App settings.If at any
+        time you wish your data to be deleted please contact us directly.\n\n
 
-        1. Click \'Set location permissions\'.\n
-        2. Go to:\n Permissions>Location>Allow all the time\n
-        3. Then cick \'I agree, start tracking\'.\nPeerLearn will
-        indicate that it is tracking location\n
+
+
+
     </string>
-    <string name="projurl">Visit our site for more details about this project</string>
+    <string name="projurl">For more info or to contact us</string>
+
     <string name="user">User agreement</string>
+    <string name="priv">Privacy policy</string>
 
 
     <!-- Strings used for fragments for navigation -->
@@ -29,6 +38,6 @@
     <string name="previous">Previous</string>
     <string name="status">Tracking location</string>
     <string name="prestatus">"Waiting for your permission"</string>
-    <string name="hello_first_fragment">Hello second fragment. Arg: %1$s</string>
-
+    <string name="statusendtrial">"Outside tracking window, app will close!"</string>
+    <string name="deniedstatus">"Always allow location permission denied, app will close!"</string>
 </resources>

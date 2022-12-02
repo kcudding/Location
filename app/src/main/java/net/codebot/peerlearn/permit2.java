@@ -55,9 +55,9 @@ public class permit2 {
             final AlertDialog alertDialog = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
                     .setMessage(Html.fromHtml(message))
-                    .setPositiveButton("Information", null)
+                    .setPositiveButton("Agree", null)
                     .setNegativeButton("CANCEL", null)
-                    .setNeutralButton("Agree", null)
+                    .setNeutralButton("More Info", null)
                     .show();
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); //create a new one
@@ -66,7 +66,19 @@ public class permit2 {
 
 
             Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
             positiveButton.setOnClickListener(v -> {
+
+                 SharedPreferences.Editor editor = prefs.edit();
+                 editor.putBoolean(trackKey, true);
+                  editor.commit();
+                     alertDialog.dismiss();
+            });
+
+            Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+
+            neutralButton.setOnClickListener(v -> {
+
 
                 String url = "https://multi-plier.ca/PeerLearn.html";
 
@@ -74,28 +86,18 @@ public class permit2 {
                 gto.setData(Uri.parse(url));
 
                 mActivity.startActivity(gto);
-            });
 
-            Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            neutralButton.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(trackKey, true);
-            editor.commit();
-                alertDialog.dismiss();
+
             });
             Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
             negativeButton.setOnClickListener(v -> {
 
 
                 mActivity.finish();
             });
 
-            layoutParams.gravity = Gravity.RIGHT;
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setLayoutParams(layoutParams);
-            layoutParams.gravity = Gravity.LEFT;
-            alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setLayoutParams(layoutParams);
-            layoutParams.gravity = Gravity.CENTER;
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setLayoutParams(layoutParams);
+
         }
     }
 }

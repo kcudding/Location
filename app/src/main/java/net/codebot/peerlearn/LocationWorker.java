@@ -21,6 +21,7 @@ import android.provider.Settings.Secure;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -30,7 +31,7 @@ public class LocationWorker extends Worker {
 
     // debugging
     public static final String TAG = "LOCATION_WORKER";
-    public static final int TIME_DELAY =  1000*60*10; // testing (5 sec)
+    public static final int TIME_DELAY =  1000*60*10; // testing (10 min)
     // CHANGE THIS TO INSTALL LOCATION OF PHP SCRIPT
     String url = "https://multi-plier.ca/?";
 
@@ -45,19 +46,28 @@ public class LocationWorker extends Worker {
     @Override
     public Result doWork() {
         // check if GPS enabled
+
+        LocalDate endtrial = LocalDate.parse("2022-12-08");
+        LocalDate starttrial = LocalDate.parse("2022-11-06");
+        LocalDate today = LocalDate.now();
+        Boolean containsToday = ( ! today.isBefore( starttrial ) ) && ( today.isBefore( endtrial ) ) ;
+        if(!containsToday ){
+            WorkManager.getInstance(getApplicationContext()).cancelAllWork();
+            System.exit(0);
+
+        }
+
+
+
         GPSTracker gps = GPSTracker.Builder();
         if(gps.canGetLocation()) {
 
-            // what do we use for a unique phone ID?
-            // * telephonyManager ONLY if a SIM card is installed
-            // * wifiManager ONLY if we're connected to Wifi
-            // but MUST work, even if both of these conditions are not met
-            // and MUST NOT CHANGE between executions/reinstallation (so generating is not simple)
+            // ID MUST NOT CHANGE between executions/reinstallation (so generating is not simple)
             // ANDROID_ID is unique to the Android OS, need to ensure that iOS doesn't conflict
 
-            // get device data
-            String imei = "imei", meid = "meid";
-            String deviceId = "deviceID";
+            // Do NOT USE get device data
+           // String imei = "imei", meid = "meid";
+           // String deviceId = "deviceID";
 
             // fetch data
             updated = new Date();
